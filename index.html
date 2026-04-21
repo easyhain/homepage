@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EasyHain - Smart Tools Portal</title>
+    <style>
+        /* Design aur Styling */
+        :root {
+            --primary: #2563eb;
+            --secondary: #7c3aed;
+            --bg: #f3f4f6;
+            --text: #1f2937;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* 1, 2 & 3: Logo/Header Design */
+        header {
+            margin-top: 50px;
+            text-align: center;
+        }
+
+        .logo-link {
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .site-name {
+            font-size: 4rem;
+            font-weight: 900;
+            margin: 0;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-family: 'Arial Black', sans-serif;
+            letter-spacing: -2px;
+            transition: transform 0.3s ease;
+        }
+
+        .site-name:hover {
+            transform: scale(1.05);
+        }
+
+        /* 4: Suggestion Box */
+        .suggestion-container {
+            margin: 40px 20px;
+            width: 90%;
+            max-width: 600px;
+        }
+
+        .input-wrapper {
+            display: flex;
+            background: white;
+            padding: 8px;
+            border-radius: 50px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            border: 2px solid transparent;
+            transition: border 0.3s;
+        }
+
+        .input-wrapper:focus-within {
+            border-color: var(--primary);
+        }
+
+        input[type="text"] {
+            flex: 1;
+            border: none;
+            outline: none;
+            padding: 12px 20px;
+            font-size: 16px;
+            border-radius: 50px;
+        }
+
+        .send-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        .send-btn:hover {
+            background: var(--secondary);
+        }
+
+        /* 5: Tool Boxes */
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            width: 90%;
+            max-width: 1000px;
+            margin-bottom: 50px;
+        }
+
+        .tool-card {
+            background: white;
+            padding: 30px 20px;
+            border-radius: 20px;
+            text-align: center;
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 600;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            border: 1px solid #e5e7eb;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(37, 99, 235, 0.15);
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+        /* Responsive Mobile ke liye */
+        @media (max-width: 600px) {
+            .site-name { font-size: 2.5rem; }
+            .input-wrapper { flex-direction: column; border-radius: 15px; }
+            .send-btn { margin-top: 10px; border-radius: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+    <a href="index.html" class="logo-link">
+        <h1 class="site-name">easyhain</h1>
+    </a>
+    <p class="site-tagline">yah site kam ko aasan krne ke liye bnayi gyi hain ,kisi bhi prakar ki truti ke liye yah site jimmedar nhi hogi
+    </p>
+    </header>
+
+
+    <div class="suggestion-container">
+        <div class="input-wrapper">
+            <input type="text" id="userSuggestion" placeholder="मुझे और तरह के टूल बनाने के लिए सुझाव दें">
+            <button class="send-btn" onclick="sendToTelegram()">भेजें</button>
+        </div>
+    </div>
+
+    <div class="tools-grid">
+        <a href="https://easyhain.github.io/result8/" class="tool-card">class 8 result</a>
+        
+        <a href="https://easyhain.github.io/result6and7/" target="_blank" class="tool-card">class 6,7 result </a>
+        
+        <a href="" class="tool-card">habit tracker</a>
+
+        <a href="#" class="tool-card">Coming Soon...</a>
+    </div>
+
+    <script>
+        function sendToTelegram() {
+            const msg = document.getElementById('userSuggestion').value;
+            
+            if(!msg) {
+                alert("Please kuch suggestion type karein!");
+                return;
+            }
+
+            // CHANGE HERE: Apna asli Token aur Chat ID dalein
+            const botToken = "8635995414:AAEfyFEN_TOGDM5QXPzG1s3HOs78RYoM4W0"; 
+            const chatId = "1890116255";
+            
+            const text = `  ${msg}`;
+            const url = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${text}&parse_mode=Markdown`;
+
+            fetch(url)
+                .then(response => {
+                    if(response.ok) {
+                        alert("Shukriya! Aapka suggestion mujhe mil gaya hai.");
+                        document.getElementById('userSuggestion').value = "";
+                    } else {
+                        alert("Error: Shayad Token ya Chat ID galat hai.");
+                    }
+                })
+                .catch(err => {
+                    alert("Network ki dikkat hai.");
+                });
+        }
+    </script>
+
+</body>
+</html>
