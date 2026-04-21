@@ -144,14 +144,6 @@
     </p>
     </header>
 
-
-    <div class="suggestion-container">
-        <div class="input-wrapper">
-            <input type="text" id="userSuggestion" placeholder="मुझे और तरह के टूल बनाने के लिए सुझाव दें">
-            <button class="send-btn" onclick="sendToTelegram()">भेजें</button>
-        </div>
-    </div>
-
     <div class="tools-grid">
         <a href="https://easyhain.github.io/result8/" class="tool-card">class 8 result</a>
         
@@ -161,35 +153,6 @@
 
         <a href="#" class="tool-card">Coming Soon...</a>
     </div>
-
-    <script>
-function sendToTelegram() {
-    const msgInput = document.getElementById('userSuggestion');
-    const msgValue = msgInput.value.trim();
-
-    if(!msgValue) {
-        alert("Please kuch suggestion type karein!");
-        return;
-    }
-
-    // Ab hum direct Telegram ko nahi, balki apni API ko call kar rahe hain
-    fetch('/api/suggest', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ suggestion: msgValue })
-    })
-    .then(response => {
-        if(response.ok) {
-            alert("Shukriya! Aapka suggestion mil gaya hai.");
-            msgInput.value = "";
-        } else {
-            alert("Error: Message nahi bhej paye.");
-        }
-    })
-    .catch(err => alert("Network ki dikkat hai."));
-}
-</script>
-
 
 </body>
 </html>
